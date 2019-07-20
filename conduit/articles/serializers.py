@@ -80,9 +80,3 @@ class CommentsSchema(CommentSchema):
     @post_dump(pass_many=True)
     def make_comment(self, data, many):
         return {'comments': data}
-
-
-article_schema = ArticleSchema()
-articles_schema = ArticleSchemas(many=True)
-comment_schema = CommentSchema()
-comments_schema = CommentsSchema(many=True)

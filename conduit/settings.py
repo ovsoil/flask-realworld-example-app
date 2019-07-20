@@ -15,7 +15,8 @@ class Config(object):
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     JWT_AUTH_USERNAME_KEY = 'email'
-    JWT_AUTH_HEADER_PREFIX = 'Token'
+    JWT_HEADER_TYPE = 'Token'
+    #  JWT_AUTH_HEADER_PREFIX = 'Token'
     CORS_ORIGIN_WHITELIST = [
         'http://0.0.0.0:4100',
         'http://localhost:4100',
@@ -26,7 +27,6 @@ class Config(object):
         'http://0.0.0.0:4000',
         'http://localhost:4000',
     ]
-    JWT_HEADER_TYPE = 'Token'
 
 
 class ProdConfig(Config):

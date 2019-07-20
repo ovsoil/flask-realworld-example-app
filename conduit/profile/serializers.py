@@ -21,7 +21,3 @@ class ProfileSchema(Schema):
 
     class Meta:
         strict = True
-
-
-profile_schema = ProfileSchema()
-profile_schemas = ProfileSchema(many=True)

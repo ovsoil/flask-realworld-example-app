@@ -10,8 +10,7 @@ from marshmallow import fields
 from conduit.exceptions import InvalidUsage
 from conduit.user.models import User
 from .models import Article, Tags, Comment
-from .serializers import (article_schema, articles_schema, comment_schema,
-                          comments_schema)
+from .serializers import (ArticleSchema, CommentSchema)
 
 blueprint = Blueprint('articles', __name__)
 
@@ -24,7 +23,7 @@ blueprint = Blueprint('articles', __name__)
 @jwt_optional
 @use_kwargs({'tag': fields.Str(), 'author': fields.Str(),
              'favorited': fields.Str(), 'limit': fields.Int(), 'offset': fields.Int()})
-@marshal_with(articles_schema)
+@marshal_with(ArticleSchema(many=True))
 def get_articles(tag=None, author=None, favorited=None, limit=20, offset=0):
     res = Article.query
     if tag:
@@ -38,8 +37,8 @@ def get_articles(tag=None, author=None, favorited=None, limit=20, offset=0):
 
 @blueprint.route('/api/articles', methods=('POST',))
 @jwt_required
-@use_kwargs(article_schema)
-@marshal_with(article_schema)
+@use_kwargs(ArticleSchema)
+@marshal_with(ArticleSchema)
 def make_article(body, title, description, tagList=None):
     article = Article(title=title, description=description, body=body,
                       author=current_user.profile)
@@ -56,8 +55,8 @@ def make_article(body, title, description, tagList=None):
 
 @blueprint.route('/api/articles/<slug>', methods=('PUT',))
 @jwt_required
-@use_kwargs(article_schema)
-@marshal_with(article_schema)
+@use_kwargs(ArticleSchema)
+@marshal_with(ArticleSchema)
 def update_article(slug, **kwargs):
     article = Article.query.filter_by(slug=slug, author_id=current_user.profile.id).first()
     if not article:
@@ -77,7 +76,7 @@ def delete_article(slug):
 
 @blueprint.route('/api/articles/<slug>', methods=('GET',))
 @jwt_optional
-@marshal_with(article_schema)
+@marshal_with(ArticleSchema)
 def get_article(slug):
     article = Article.query.filter_by(slug=slug).first()
     if not article:
@@ -87,7 +86,7 @@ def get_article(slug):
 
 @blueprint.route('/api/articles/<slug>/favorite', methods=('POST',))
 @jwt_required
-@marshal_with(article_schema)
+@marshal_with(ArticleSchema)
 def favorite_an_article(slug):
     profile = current_user.profile
     article = Article.query.filter_by(slug=slug).first()
@@ -100,7 +99,7 @@ def favorite_an_article(slug):
 
 @blueprint.route('/api/articles/<slug>/favorite', methods=('DELETE',))
 @jwt_required
-@marshal_with(article_schema)
+@marshal_with(ArticleSchema)
 def unfavorite_an_article(slug):
     profile = current_user.profile
     article = Article.query.filter_by(slug=slug).first()
@@ -114,7 +113,7 @@ def unfavorite_an_article(slug):
 @blueprint.route('/api/articles/feed', methods=('GET',))
 @jwt_required
 @use_kwargs({'limit': fields.Int(), 'offset': fields.Int()})
-@marshal_with(articles_schema)
+@marshal_with(ArticleSchema(many=True))
 def articles_feed(limit=20, offset=0):
     return Article.query.join(current_user.profile.follows). \
         order_by(Article.createdAt.desc()).offset(offset).limit(limit).all()
@@ -135,7 +134,7 @@ def get_tags():
 
 
 @blueprint.route('/api/articles/<slug>/comments', methods=('GET',))
-@marshal_with(comments_schema)
+@marshal_with(CommentSchema(many=True))
 def get_comments(slug):
     article = Article.query.filter_by(slug=slug).first()
     if not article:
@@ -145,8 +144,8 @@ def get_comments(slug):
 
 @blueprint.route('/api/articles/<slug>/comments', methods=('POST',))
 @jwt_required
-@use_kwargs(comment_schema)
-@marshal_with(comment_schema)
+@use_kwargs(CommentSchema)
+@marshal_with(CommentSchema)
 def make_comment_on_article(slug, body, **kwargs):
     article = Article.query.filter_by(slug=slug).first()
     if not article:

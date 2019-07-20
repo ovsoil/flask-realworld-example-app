@@ -9,14 +9,14 @@ from conduit.database import db
 from conduit.exceptions import InvalidUsage
 from conduit.profile.models import UserProfile
 from .models import User
-from .serializers import user_schema
+from .serializers import UserSchema
 
 blueprint = Blueprint('user', __name__)
 
 
 @blueprint.route('/api/users', methods=('POST',))
-@use_kwargs(user_schema)
-@marshal_with(user_schema)
+@use_kwargs(UserSchema)
+@marshal_with(UserSchema)
 def register_user(username, password, email, **kwargs):
     try:
         userprofile = UserProfile(User(username, email, password=password, **kwargs).save()).save()
@@ -29,8 +29,8 @@ def register_user(username, password, email, **kwargs):
 
 @blueprint.route('/api/users/login', methods=('POST',))
 @jwt_optional
-@use_kwargs(user_schema)
-@marshal_with(user_schema)
+@use_kwargs(UserSchema)
+@marshal_with(UserSchema)
 def login_user(email, password, **kwargs):
     user = User.query.filter_by(email=email).first()
     if user is not None and user.check_password(password):
@@ -42,7 +42,7 @@ def login_user(email, password, **kwargs):
 
 @blueprint.route('/api/user', methods=('GET',))
 @jwt_required
-@marshal_with(user_schema)
+@marshal_with(UserSchema)
 def get_user():
     user = current_user
     # Not sure about this
@@ -52,8 +52,8 @@ def get_user():
 
 @blueprint.route('/api/user', methods=('PUT',))
 @jwt_required
-@use_kwargs(user_schema)
-@marshal_with(user_schema)
+@use_kwargs(UserSchema)
+@marshal_with(UserSchema)
 def update_user(**kwargs):
     user = current_user
     # take in consideration the password

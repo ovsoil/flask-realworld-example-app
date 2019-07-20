@@ -39,7 +39,9 @@ class Comment(Model, SurrogatePK):
     createdAt = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     updatedAt = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     author_id = reference_col('userprofile', nullable=False)
+    # 一对多
     author = relationship('UserProfile', backref=db.backref('comments'))
+    # 一对多
     article_id = reference_col('article', nullable=False)
 
     def __init__(self, article, author, body, **kwargs):
@@ -57,16 +59,20 @@ class Article(SurrogatePK, Model):
     createdAt = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     updatedAt = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
     author_id = reference_col('userprofile', nullable=False)
+    # 一对多
     author = relationship('UserProfile', backref=db.backref('articles'))
+    # 多对多
     favoriters = relationship(
         'UserProfile',
         secondary=favoriter_assoc,
         backref='favorites',
         lazy='dynamic')
 
+    # 多对多
     tagList = relationship(
         'Tags', secondary=tag_assoc, backref='articles')
 
+    # 多对一
     comments = relationship('Comment', backref=db.backref('article'), lazy='dynamic')
 
     def __init__(self, author, title, body, description, slug=None, **kwargs):

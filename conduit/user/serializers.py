@@ -32,7 +32,3 @@ class UserSchema(Schema):
 
     class Meta:
         strict = True
-
-
-user_schema = UserSchema()
-user_schemas = UserSchema(many=True)

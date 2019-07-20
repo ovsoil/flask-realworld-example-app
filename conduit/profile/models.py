@@ -17,6 +17,7 @@ class UserProfile(Model, SurrogatePK):
 
     user_id = reference_col('users', nullable=False)
     user = relationship('User', backref=db.backref('profile', uselist=False))
+    # 多对多
     follows = relationship('UserProfile',
                            secondary=followers_assoc,
                            primaryjoin=id == followers_assoc.c.follower,
@@ -26,6 +27,9 @@ class UserProfile(Model, SurrogatePK):
 
     def __init__(self, user, **kwargs):
         db.Model.__init__(self, user=user, **kwargs)
+
+    def __repr__(self):
+        return '<UserProfile %r>' % self.user_id
 
     def is_following(self, profile):
         return bool(self.follows.filter(followers_assoc.c.followed_by == profile.id).count())
