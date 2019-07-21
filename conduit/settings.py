@@ -10,6 +10,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('CONDUIT_SECRET', 'secret-key')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
+    DIST_DIR = os.path.join(PROJECT_ROOT, 'frontend/dist')
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
