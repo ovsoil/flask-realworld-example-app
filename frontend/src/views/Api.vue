@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="api">
     <h1>Call Backend API Demo</h1>
     <p>Click on the links below to fetch data from the Flask server</p>
     <a href="" @click.prevent="fetchRandom">Fetch Random</a>
@@ -18,7 +18,7 @@
 import $backend from '../backend'
 
 export default {
-  name: 'about',
+  name: 'Api',
   data () {
     return {
       resources: [],
@@ -48,5 +48,5 @@ export default {
 
 </script>
 
-<!-- <style lang="scss"> -->
-<!-- </style> -->
+<style lang="scss">
+</style>
