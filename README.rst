@@ -13,7 +13,7 @@ add the following to ``.bashrc`` or ``.bash_profile``.
 
 .. code-block:: bash
 
-    export CONDUIT_SECRET='something-really-secret'
+    export FLASK_SECRET='something-really-secret'
 
 Before running shell commands, set the ``FLASK_APP`` and ``FLASK_DEBUG``
 environment variables ::
@@ -39,6 +39,17 @@ To run the web application use::
 
     flask run --with-threads
 
+build and run frontend use::
+
+    yarn install
+    yarn run serve
+    yarn run build
+    yarn run test
+    yarn run lint
+
+* Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
 
 Deployment
 ----------
@@ -48,6 +59,16 @@ variable is unset or is set to ``0``, so that ``ProdConfig`` is used, and
 set ``DATABASE_URL`` which is your postgresql URI for example
 ``postgresql://localhost/example`` (this is set by default in heroku).
 
+
+deploy to heroku::
+
+    heroku apps:create demo
+    heroku git:remote --app demo
+    heroku buildpacks:add --index 1 heroku/nodejs
+    heroku buildpacks:add --index 2 heroku/python
+    heroku config:set FLASK_ENV=production
+    heroku config:set FLASK_SECRET=SuperSecretKey
+    git push heroku
 
 Shell
 -----

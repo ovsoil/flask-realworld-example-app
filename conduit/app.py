@@ -14,7 +14,7 @@ def create_app(config_object=ProdConfig):
 
     :param config_object: The configuration object to use.
     """
-    app = Flask(__name__.split('.')[0], static_folder='../frontend/dist/static')
+    app = Flask(__name__.split('.')[0], static_folder='../dist/static')
     app.url_map.strict_slashes = False
     app.config.from_object(config_object)
     register_extensions(app)

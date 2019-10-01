@@ -1,4 +1,5 @@
 // const IS_PRODUCTION = process.env.NODE_ENV === 'production'
+const SERVER_PORT = process.env.PORT
 
 module.exports = {
   outputDir: 'dist',
@@ -13,8 +14,8 @@ module.exports = {
   devServer: {
     proxy: {
       '/api/*': {
-        // Forward frontend dev server request for /api to django dev server
-        target: 'http://localhost:5000/'
+        // Forward frontend dev server request for /api to backend server
+        target: `http://localhost:${SERVER_PORT}`
       }
     }
   }
