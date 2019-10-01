@@ -10,7 +10,8 @@ class Config(object):
     SECRET_KEY = os.environ.get('FLASK_SECRET', 'secret-key')  # TODO: Change me
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
-    DIST_DIR = os.path.join(PROJECT_ROOT, 'frontend/dist')
+    DIST_DIR = os.path.join(PROJECT_ROOT, 'dist')
+    STATIC_DIR = os.path.join(PROJECT_ROOT, 'dist/static')
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
@@ -48,6 +49,8 @@ class DevConfig(Config):
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
     SQLALCHEMY_DATABASE_URI = 'sqlite:///{0}'.format(DB_PATH)
+    #  SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL',
+    #                                           'postgresql://localhost/example')
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(10 ** 6)
 
