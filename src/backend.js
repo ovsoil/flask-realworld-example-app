@@ -25,5 +25,15 @@ export default {
   async clearRandomCache () {
     const res = await $axios.get(`clear`)
     return res.data
+  },
+
+  async getJson (name) {
+    const res = await $axios.get(`json/` + name)
+    return res.data
+  },
+
+  async postJson (name, data) {
+    const res = await $axios.post(`json/` + name, data)
+    return res.data
   }
 }

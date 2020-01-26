@@ -8,6 +8,8 @@
       <div id="nav">
         <router-link to="/">Home</router-link> |
         <router-link to="/api">API Sample</router-link> |
+        <router-link to="/json">Json Editor</router-link> |
+        <router-link to="/login">Login</router-link> |
         <router-link to="/about">About</router-link>
       </div>
       <v-btn
