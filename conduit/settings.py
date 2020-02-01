@@ -12,6 +12,7 @@ class Config(object):
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
     DIST_DIR = os.path.join(PROJECT_ROOT, 'dist')
     STATIC_DIR = os.path.join(PROJECT_ROOT, 'dist/static')
+    JSON_DIR = os.path.join(APP_DIR, 'json')
     BCRYPT_LOG_ROUNDS = 13
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.

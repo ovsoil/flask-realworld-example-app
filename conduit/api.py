@@ -10,7 +10,6 @@ from conduit.extensions import cache
 
 
 blueprint = Blueprint('api', __name__)
-JSON_DIR = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'json')
 
 
 @blueprint.route('/')
@@ -46,7 +45,8 @@ def get_json(name):
     if not fname.endswith('.json'):
         fname += fname + '.json'
     try:
-        with open(os.path.join(JSON_DIR, fname), 'r') as fh:
+        json_dir = current_app.config['JSON_DIR']
+        with open(os.path.join(json_dir, fname), 'r') as fh:
             return json.load(fh)
     except Exception:
         return "json not found", 404
@@ -58,9 +58,9 @@ def post_json(name):
     if not fname.endswith('.json'):
         fname += fname + '.json'
     data = json.loads(request.data.decode('utf-8'))
-    print(fname, data)
     try:
-        with open(os.path.join(JSON_DIR, fname), 'w') as fh:
+        json_dir = current_app.config['JSON_DIR']
+        with open(os.path.join(json_dir, fname), 'w') as fh:
             json.dump(data, fh, indent=2, ensure_ascii=False)
         return data
     except Exception as e:

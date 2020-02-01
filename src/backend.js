@@ -33,6 +33,7 @@ export default {
   },
 
   async postJson (name, data) {
+    console.log(data)
     const res = await $axios.post(`json/` + name, data)
     return res.data
   }

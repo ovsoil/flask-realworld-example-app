@@ -98,7 +98,6 @@ export default {
         this.info = error.message
       }
     }
-
   }
 }
 
