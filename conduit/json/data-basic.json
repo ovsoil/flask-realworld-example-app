@@ -1,0 +1,12 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "age": 21,
+  "type": "person",
+  "password": null,
+  "ageSlider": null,
+  "internalKey": null,
+  "citizen": null,
+  "description": null,
+  "homepage": null
+}
